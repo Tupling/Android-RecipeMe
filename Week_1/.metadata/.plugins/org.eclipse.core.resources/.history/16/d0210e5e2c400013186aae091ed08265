@@ -80,9 +80,9 @@ public class MainActivity extends Activity {
 			//REQUIRED
 			public void onClick(View arg0) {
 
-				//determine if value entered is a number if not show toast error if it is run calculateEarnings
 				editTextValue = eText.getText().toString();
 				try {
+					int value = Integer.parseInt(editTextValue);
 					calculateEarnings();
 					Toast.makeText(mContext,
 							"Calculating Earnings",

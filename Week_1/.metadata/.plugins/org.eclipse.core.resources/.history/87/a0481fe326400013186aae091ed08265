@@ -59,11 +59,12 @@ public class MainActivity extends Activity {
 		// Required Element (EDITTEXT)
 		eText = new EditText(mContext);
 
+		// Use of Android String Resources for EditText hint (REQUIRED RESOURCE)
+		eText.setHint(R.string.editTexHint);
 
 		// Required Element (TEXTVIEW)
 		tView = new TextView(this);
-		//Android Resource (REQUIRED)
-		tView.setText(R.string.editTexHint);
+		tView.setText("Enter amount of items sold above...");
 		
 		//EarningsText TextView setup
 		earningsText = new TextView(this);
@@ -72,27 +73,27 @@ public class MainActivity extends Activity {
 		button = new Button(this);
 		button.setText("Calculate");
 		
-
+		//Get eText string
+		editTextValue = eText.getText().toString();
+		// Convert eText value to integer
+		itemsSold = Integer.parseInt(editTextValue);
+		
 		// Require Click Event
 		button.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			//REQUIRED
 			public void onClick(View arg0) {
-
-				//determine if value entered is a number if not show toast error if it is run calculateEarnings
-				editTextValue = eText.getText().toString();
-				try {
+				if (eText != null) {
+					//Call calculateEarnings function on click
+					
 					calculateEarnings();
 					Toast.makeText(mContext,
 							"Calculating Earnings",
 							Toast.LENGTH_LONG).show();
-				} catch (NumberFormatException e) {
-					Toast.makeText(mContext,
-							"You must enter amount of items sold",
-							Toast.LENGTH_LONG).show();
+				} else if (eText == 0) {
+					tView.setText("You must enter a value");
 				}
-				
 			}
 		});
 

@@ -79,20 +79,20 @@ public class MainActivity extends Activity {
 			@Override
 			//REQUIRED
 			public void onClick(View arg0) {
-
-				//determine if value entered is a number if not show toast error if it is run calculateEarnings
 				editTextValue = eText.getText().toString();
-				try {
-					calculateEarnings();
-					Toast.makeText(mContext,
-							"Calculating Earnings",
-							Toast.LENGTH_LONG).show();
-				} catch (NumberFormatException e) {
+				int itemsSoldInput = Integer.parseInt(editTextValue);
+				if(eText.getText().toString().equals(null) || eText.getText().toString().equals("")){
 					Toast.makeText(mContext,
 							"You must enter amount of items sold",
 							Toast.LENGTH_LONG).show();
 				}
-				
+				}else{
+					calculateEarnings();
+					Toast.makeText(mContext,
+							"Calculating Earnings",
+							Toast.LENGTH_LONG).show();
+
+
 			}
 		});
 

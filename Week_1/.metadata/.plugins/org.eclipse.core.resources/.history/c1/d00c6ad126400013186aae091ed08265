@@ -21,8 +21,6 @@ public class MainActivity extends Activity {
 	TextView tView;
 	TextView earningsText;
 	
-	//Required Float
-	float itemsSold;
 	
 	// Required Boolean (Global Variable)
 	boolean metQuota = false;
@@ -59,11 +57,12 @@ public class MainActivity extends Activity {
 		// Required Element (EDITTEXT)
 		eText = new EditText(mContext);
 
+		// Use of Android String Resources for EditText hint (REQUIRED RESOURCE)
+		eText.setHint(R.string.editTexHint);
 
 		// Required Element (TEXTVIEW)
 		tView = new TextView(this);
-		//Android Resource (REQUIRED)
-		tView.setText(R.string.editTexHint);
+		tView.setText("Enter amount of items sold above...");
 		
 		//EarningsText TextView setup
 		earningsText = new TextView(this);
@@ -71,7 +70,6 @@ public class MainActivity extends Activity {
 		// Required Element (BUTTON)
 		button = new Button(this);
 		button.setText("Calculate");
-		
 
 		// Require Click Event
 		button.setOnClickListener(new View.OnClickListener() {
@@ -79,20 +77,16 @@ public class MainActivity extends Activity {
 			@Override
 			//REQUIRED
 			public void onClick(View arg0) {
-
-				//determine if value entered is a number if not show toast error if it is run calculateEarnings
-				editTextValue = eText.getText().toString();
-				try {
+				if (eText != null) {
+					//Call calculateEarnings function on click
+					
 					calculateEarnings();
 					Toast.makeText(mContext,
 							"Calculating Earnings",
 							Toast.LENGTH_LONG).show();
-				} catch (NumberFormatException e) {
-					Toast.makeText(mContext,
-							"You must enter amount of items sold",
-							Toast.LENGTH_LONG).show();
+				} else if (eText == null) {
+					tView.setText("You must enter a value");
 				}
-				
 			}
 		});
 
@@ -110,7 +104,8 @@ public class MainActivity extends Activity {
 
 	// Required Element (FUNCTION)
 	public void calculateEarnings() {
-
+		//Required Float
+		float itemsSold;
 		
 		// Required Float
 		float itemCost = 1.99f;
@@ -124,7 +119,7 @@ public class MainActivity extends Activity {
 		// starting items for while loops
 		float startingItemsSold = 0;
 
-		//Get eText string
+		// Calculation
 		editTextValue = eText.getText().toString();
 		// Convert eText value to integer
 		itemsSold = Integer.parseInt(editTextValue);
