@@ -1,4 +1,3 @@
 INDEX VERSION 1.126+/Users/Tupling/Desktop/Java1CourseWork/Week_2/.metadata/.plugins/org.eclipse.jdt.core
-3363799977.index
 3511766571.index
 4054539134.index
