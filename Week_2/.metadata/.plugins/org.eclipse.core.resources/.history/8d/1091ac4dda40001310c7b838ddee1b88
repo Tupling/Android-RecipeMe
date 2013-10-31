@@ -1,0 +1,58 @@
+package com.daletupling.recipe;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class JSON {
+
+	public static JSONObject buildJSON(){
+		//Create Recipe Objects
+		JSONObject recipeObjects = new JSONObject();
+
+		//Try/Catch statement try JSON or fail with JSONException
+		try{
+			//Query JSON
+			JSONObject queryJSON = new JSONObject();
+
+			//Loop through Recipe ENUMS in Recipe Class
+			for(Recipes recipe : Recipes.values()){
+				//Create REcipe JSON Object from Recipe ENUMS
+				JSONObject recipeObject = new JSONObject();
+
+				//Place recipeName into JSONObject
+				recipeObject.put("recipeName",recipe.setRecipe());
+				//Place ingredients into JSONObject
+				recipeObject.put("recipeIngredients",recipe.setIngredients());
+				queryJSON.put(recipe.name().toString(), recipeObject);
+
+			}//For loop closing Bracket
+
+			recipeObjects.put("query", queryJSON);
+
+		} catch (JSONException e){
+			e.printStackTrace();
+		}//catch closing bracket
+
+		return recipeObjects;
+	}//builJSON closing bracket
+	
+	public static String readJSON(String selected){
+		String select, recipeName, ingredients;
+
+		
+		JSONObject recipe = buildJSON();
+		
+		try{
+			recipeName = recipe.getJSONObject("query").getJSONObject(selected).getString("recipeName");
+			ingredients = recipe.getJSONObject("query").getJSONObject(selected).getString("ingredients");
+			
+			
+		}catch (JSONException e){
+			e.printStackTrace();
+			select = e.toString();
+		}
+		return select;
+		
+	}
+
+}//JSON closing bracket

@@ -1,0 +1,29 @@
+package com.daletupling.recipe;
+
+import org.json.JSONObject;
+
+public class JSON {
+
+	public static JSONObject buildJSON(){
+		//Create Recipe Objects
+		JSONObject recipeObjects = new JSONObject();
+		
+		//Try/Catch statement try JSON or fail with JSONException
+		try{
+			//Query JSON
+			JSONObject queryJSON = new JSONObject();
+			
+			//Loop through Recipe ENUMS in Recipe Class
+			for(Recipes recipeName : Recipe.values()){
+				//Create REcipe JSON Object from Recipe ENUMS
+				JSONObject recipeObject = new JSONObject();
+				
+				//Place Recipes into JSONObject
+				recipeObject.put("recipeName", recipe.setRecipe());
+				
+			}
+		}
+		
+		return recipeObjects;
+}
+	}

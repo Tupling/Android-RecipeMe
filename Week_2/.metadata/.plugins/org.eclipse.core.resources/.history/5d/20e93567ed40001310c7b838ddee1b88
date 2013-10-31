@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Recipe Me</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string-array name="recipeArr">
+        <item>Chicken Tendoori</item>
+        <item>Indian Pudding</item>
+        <item>Apple Dip</item>
+        <item>Tortellini Soup</item>
+        <item>Bread Pudding</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,14 @@
+package com.daletupling.recipe;
+
+public class Recipe {
+	
+	//Recipe's ENUM
+	public enum Recipes{
+		
+		
+		private final String recipeName;
+		private final String recipeIngrediants;
+		
+	}
+
+}

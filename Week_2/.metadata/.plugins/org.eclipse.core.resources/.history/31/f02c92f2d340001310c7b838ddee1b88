@@ -1,0 +1,29 @@
+package com.daletupling.recipe;
+
+public class Recipe {
+	
+	//Recipe's ENUM
+	public enum Recipes{
+		ChickenTendoori("Dinner", "Cayenne Pepper\r\nGarlic\r\n Lime Juice\r\n Salt\r\n Chicken Breast\r\nGround Coriander\r\nFresh Ginger\r\nPaprika\r\nFresh Ginger\r\nGround Cumin\r\nPlain Yogurt");
+		
+		private final String recipeName;
+		private final String recipeIngredients;
+		
+		//Set recipe Name and Ingredients to String variables
+		private Recipes(String recipeName, String recipeIngredients){
+			this.recipeName = recipeName;
+			this.recipeIngredients = recipeIngredients;
+		}
+		
+		//Set RecipeName
+		public String setRecipe(){
+			return recipeName;
+		}
+		//Set Recipe Ingredients
+		public String setIngredients(){
+			return recipeIngredients;
+		}
+		
+	}
+
+}
