@@ -1,0 +1,53 @@
+
+//Project: RecipeMe
+  
+//Package: com.daletupling.recipeme
+
+//Author:  Dale Tupling
+
+//Date:	   November 8th, 2013
+
+
+package com.daletupling.recipeme;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import com.daletupling.recipeme.ConStatus;
+
+import android.app.Activity;
+import android.app.IntentService;
+import android.content.Intent;
+import android.util.Log;
+
+//Extend GetWine with IntentService which passes through string variable from subclass
+public class GetData extends IntentService {
+	
+
+	String pulledData = null;
+	
+	//Get data passing search string
+	public GetData(String search) {
+		super(search);
+		String dataUrl = "http://food2fork.com/api/search?key=d93b07b1067a7a5a8add2ee2ab7005bd&q="+search;
+		URL finalURL = null;
+		//Try URL for data
+		try{
+			//Data final URL from url plus search string
+			finalURL = new URL(dataUrl);
+			//get pulled data response passing finalURL
+			pulledData = ConStatus.getResponse(finalURL);
+			//check for data size if greater than 0 data return is successful
+			if(pulledData.length() > 0) _dataResults = Activity.RESULT_OK;
+		} catch (MalformedURLException e){
+			//Log error
+			Log.e("BAD URL", "MALFORMED URL");
+			finalURL = null;
+		}
+	}
+
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		
+	}
+}

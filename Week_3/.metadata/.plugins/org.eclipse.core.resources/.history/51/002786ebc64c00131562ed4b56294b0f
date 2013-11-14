@@ -1,0 +1,24 @@
+package com.daletupling.recipeme;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import com.daletupling.recipeme.ConStatus;
+
+import android.util.Log;
+
+public class GetData IntentService {
+	public GetRecipe(String search) {
+		super(search);
+		String apiURL = " http://food2fork.com/api/search?key=d93b07b1067a7a5a8add2ee2ab7005bd&q="+search;
+		URL finalURL = null;
+		
+		try{
+			finalURL = new URL(apiURL);
+			_response = WebStuff.getURLStringResponse(finalURL);
+			if(_response.length() > 0) _result = Activity.RESULT_OK;
+		} catch (MalformedURLException e){
+			Log.e("BAD URL", "MALFORMED URL");
+			finalURL = null;
+		}
+	}
+}

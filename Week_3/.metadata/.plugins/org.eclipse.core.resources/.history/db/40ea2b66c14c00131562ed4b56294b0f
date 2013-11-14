@@ -1,0 +1,44 @@
+package com.daletupling.recipeme;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.content.Context;
+import android.view.Menu;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+	Context mContext;
+	String[] recipeList;
+	TextView recipeInfoText;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mContext = this;
+
+		//recipeList = //RecipeArray
+
+		//Create Linear Layout
+		LinearLayout linearL = new LinearLayout(mContext);
+		//Create Linear Layout parameters
+		LayoutParams layoutP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		//Set layout Params
+		linearL.setLayoutParams(layoutP);
+		//Set Layout Orientation
+		linearL.setOrientation(LinearLayout.VERTICAL);
+		
+		//Set content view to programmatic Linear Layout
+		setContectView(linearL);
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+}
