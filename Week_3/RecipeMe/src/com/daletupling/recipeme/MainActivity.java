@@ -11,56 +11,58 @@
 
 package com.daletupling.recipeme;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.daletupling.libs.APIData;
+import com.daletupling.libs.APIData.getData;
 import com.daletupling.libs.WebData;
 
 public class MainActivity extends Activity {
-	Context mContext;
+	public static Context mContext;
 	String[] recipeList;
 	TextView netConnectionText;
 	EditText search;
 	Button button;
 	Boolean connection = false;
+	ListView listV;
+	LinearLayout linearL;
 
 	String tempSearchString;
-	String finalSearch;
+	public static String finalSearch;
 	static String TAG = "NETWORK DATA - MAINACTIVITY";
 
-	public static String initalURL = "http://food2fork.com/api/search?key=d93b07b1067a7a5a8add2ee2ab7005bd&q=";
+	public static String initialURL = "http://food2fork.com/api/search?key=d93b07b1067a7a5a8add2ee2ab7005bd&q=";
+	public static String finalURL;
+	
+	public static ArrayAdapter<String>listA;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = this;
+		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		// Create Linear Layout
-		LinearLayout linearL = new LinearLayout(mContext);
+		linearL = new LinearLayout(mContext);
 		// Create Linear Layout parameters
 		LayoutParams layoutP = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
@@ -73,31 +75,47 @@ public class MainActivity extends Activity {
 		search = new EditText(mContext);
 		LayoutParams searchParam = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
-		search.setHint("Search recipes...");
+		search.setHint(R.string.searchHint);
 		search.setLayoutParams(searchParam);
-
+		//Create ListView Adapter
+        
+		listA = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, APIData.recipeList);
+        //Create ListView of Recipes
+        listV = new ListView(mContext);
+        //Set Listview Adapter
+        listV.setAdapter(listA);
+        //Setup LayoutParams for ListView
+        LayoutParams listLayoutP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        //Set Layout Params for ListView
+        listV.setLayoutParams(listLayoutP);
+        
+        
 		// Button Instantiation and Params
 		button = new Button(mContext);
 		LayoutParams buttonP = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
 		button.setLayoutParams(buttonP);
-		button.setText("Search");
+		button.setText(R.string.buttonText);
 
 		button.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
+				listA.clear();
 				// Set search field text to temp string
 				tempSearchString = search.getText().toString();
 				String searchCheck = tempSearchString;
+				//regex for search string. Only accepts letters and spaces
 				Pattern pattern = Pattern.compile("^[a-zA-Z ]+$");
+				//Match pattern to search string if acceptable search string continue
 				Matcher match = pattern.matcher(searchCheck);
 				if (!match.matches()) {
-					// Display alert if search string contains anything other
-					// than the characters set in Pattern
-					AlertDialog.Builder builder = new AlertDialog.Builder(
+
+					// Display alert if search string contains any other character other than pattern regex
+
+					AlertDialog.Builder alertDialog = new AlertDialog.Builder(
 							mContext);
-					builder.setMessage(
+					alertDialog.setMessage(
 							"Your search contains invalid characters please only use letters.")
 							.setCancelable(false)
 							.setPositiveButton("OK",
@@ -107,25 +125,33 @@ public class MainActivity extends Activity {
 											dialog.cancel();
 										}// dialog onClick closing bracket
 									});// setPositiveButton closing bracket
-					AlertDialog alert = builder.create();
+					AlertDialog alert = alertDialog.create();
 					alert.show();
 				} else {
-					// Tack temp string and replace all spaces with %20 for API
-					// URL
+					//Get temp string and replace all spaces with %20 for API
 					finalSearch = tempSearchString.replaceAll(" ", "%20");
-
+					//Call getData method in APIData.java file
 					getData data = new getData();
-
-					data.execute(finalSearch);
-
+					//Create final URL String from initialURL and Search String
+					finalURL = (initialURL+finalSearch);
+					
+					//Execute Data with finalURL Param
+					data.execute(finalURL);
+					
 					Log.i("SEARCH QUERY", finalSearch);
+					InputMethodManager imm = (InputMethodManager)getSystemService(
+						      Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(linearL.getWindowToken(), 0);
+	
 				}// else closing bracket
-
+				
 			}// button onClick closing bracket
 		});// onClickListener closing bracket
-
+		
+        
 		// NetConnectionText Instantiation and Params
 		netConnectionText = new TextView(mContext);
+		
 		LayoutParams netTextP = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
 		netConnectionText.setLayoutParams(netTextP);
@@ -140,7 +166,6 @@ public class MainActivity extends Activity {
 
 		} else {
 			// Display dialog box for no connection
-
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(
 					"No Internet Connection Detected. Check your connection and try again.")
@@ -154,7 +179,8 @@ public class MainActivity extends Activity {
 							});
 			AlertDialog alert = builder.create();
 			alert.show();
-			netConnectionText.setText("You are not connected to any network");
+			//set netConnection text if no network found
+			netConnectionText.setText(R.string.noConnection);
 
 		}// network connection if statement closing bracket
 
@@ -164,72 +190,13 @@ public class MainActivity extends Activity {
 		linearL.addView(search);
 		// Add Button to View
 		linearL.addView(button);
+		//Add Listview to View
+		linearL.addView(listV);
 		// Set content view to programmatic Linear Layout
 		setContentView(linearL);
 
 	}// onCreate Closing bracket
 
-	// Get response from URL of API
-	public static String getResponse(URL url) {
-		String response = "";
-		try {
-			URLConnection urlConnection = url.openConnection();
-			BufferedInputStream bin = new BufferedInputStream(
-					urlConnection.getInputStream());
-			byte[] contextByte = new byte[2048];
-			int byteRead = 0;
-			StringBuffer responseBuffer = new StringBuffer();
-			while ((byteRead = bin.read(contextByte)) != -1) {
-				response = new String(contextByte, 0, byteRead);
-				responseBuffer.append(response);
-			}
-			response = responseBuffer.toString();
-			Log.i(TAG, response);
-		} catch (IOException e) {
-			response = "Something happened and we didn't get the input";
-			Log.e(TAG, "Oops we didn't get that", e);
-			e.printStackTrace();
-		}
-		return response;
-	}// getResponse closing bracket
-
-	// Get JSON Data and Filter through data to build arrays for Team name,
-	// location and nickname
-	public class getData extends AsyncTask<String, Void, String> {
-		@Override
-		protected String doInBackground(String... params) {
-			String responseString = "";
-			try {
-
-				URL url = new URL(initalURL + finalSearch);
-				Log.i("URL", url.toString());
-				responseString = getResponse(url);
-			} catch (MalformedURLException e) {
-				responseString = "UhOh we made a mistake";
-				Log.e(TAG, "ERROR:", e);
-
-			}
-			return responseString;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			Log.i("TRYING JSON", "trying json");
-			Log.i("RESPONSE", result);
-			try {
-
-				JSONObject jsonObject = new JSONObject(result);
-				// Get Array sports from JSONObject
-				JSONArray recipeArray = jsonObject.getJSONArray("recipe");
-				Log.i("THE RESULTS", recipeArray.toString());
-
-			} catch (JSONException e) {
-				Log.e("JSONException", "ERROR", e);
-				e.printStackTrace();
-			}
-
-		}
-	}// getData closing bracket
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
