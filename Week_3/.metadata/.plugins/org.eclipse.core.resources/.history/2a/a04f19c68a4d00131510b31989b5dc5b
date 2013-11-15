@@ -11,9 +11,17 @@
 
 package com.daletupling.libs;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
+
+
 
 
 public class WebData {
@@ -55,6 +63,30 @@ public class WebData {
 		}
 	}
 	
+	//Get response from URL of API
+    public static String getResponse(URL url) {
+        String response = "";
+        try {
+                URLConnection urlConnection = url.openConnection();
+                BufferedInputStream bin = new BufferedInputStream(
+                                urlConnection.getInputStream());
+                byte[] contextByte = new byte[2048];
+                int byteRead = 0;
+                StringBuffer responseBuffer = new StringBuffer();
+                while ((byteRead = bin.read(contextByte)) != -1) {
+                        response = new String(contextByte, 0, byteRead);
+                        responseBuffer.append(response);
+                }
+                response = responseBuffer.toString();
+                Log.i(TAG, response);
+        } catch (IOException e) {
+                response = "Something happened and we didn't get the input";
+                Log.e(TAG, "Oops we didn't get that", e);
+                e.printStackTrace();
+        }
+        return response;
+}
+
 }
 
 

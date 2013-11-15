@@ -215,7 +215,6 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			Log.i("TRYING JSON", "trying json");
-			Log.i("RESPONSE", result);
 			try {
 
 				JSONObject jsonObject = new JSONObject(result);
