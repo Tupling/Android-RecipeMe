@@ -2,5 +2,4 @@ INDEX VERSION 1.126+/Users/Tupling/Desktop/Java1CourseWork/Week_4/.metadata/.plu
 303068749.index
 3460137699.index
 3917386388.index
-849521445.index
 3511766571.index
