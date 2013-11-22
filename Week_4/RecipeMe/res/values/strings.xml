@@ -12,5 +12,6 @@
     <string name="ingredientsTitle">Ingredients</string>
     <string name="ingredientsSt">Ingredients:</string>
     <string name="recipe_image">Recipe Image</string>
+    <string name="poweredBy">Powered By:</string>
 
 </resources>

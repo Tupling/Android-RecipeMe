@@ -81,11 +81,12 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
-			//get selected product
+			//Get selected contect from API data stored in arrays
 				String selectedRecipe = parent.getItemAtPosition(position).toString();
 				String selectedRi = APIData.recipeIngre.get(position).toString();
 				//Launch details activity
 				Intent i = new Intent(getApplicationContext(), ListDetails.class);
+				//Bring data selected from position to new activity
 				i.putExtra("selectedRecipe", selectedRecipe);
 				i.putExtra("ingredients", selectedRi);
 				startActivity(i);

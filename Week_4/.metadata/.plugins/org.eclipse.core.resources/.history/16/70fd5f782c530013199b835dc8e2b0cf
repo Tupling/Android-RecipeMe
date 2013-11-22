@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RecipeMe</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="buttonText">Search</string>
+    <string name="searchHint">Search recipe contents...</string>
+    <string name="noConnection">Your are not connected to a network. Please connect and try again.</string>
+    <string name="search_recipes">Search recipes...</string>
+    <string name="sbText">Search</string>
+    <string name="ingredientsTitle">Ingredients</string>
+    <string name="ingredientsSt">Ingredients:</string>
+    <string name="recipe_image">Recipe Image</string>
+
+</resources>

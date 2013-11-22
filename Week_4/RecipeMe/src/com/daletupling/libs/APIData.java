@@ -105,6 +105,7 @@ public class APIData {
 
 						//add each recipe to recipeList Array
 						recipeList.add(recipeInfo.getString("recipeName"));
+						//add ingredients to ingredient array
 						recipeIngre.add(recipeInfo.getString("ingredients").toString());
 
 					}//for loop closing bracket

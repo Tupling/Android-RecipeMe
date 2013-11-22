@@ -10,13 +10,15 @@ public class ListDetails extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.recipe_details);
-
+		
+		//set TextView variables
 		TextView recipeTextView = (TextView) findViewById(R.id.recipeName);
 		TextView detailsTextView = (TextView) findViewById(R.id.ingredients);
 		TextView ingredientTextV = (TextView) findViewById(R.id.iTitle);
 
+		//Bring content attached to Intent
 		Intent i = getIntent();
-		// getting attached intent data
+		//set String variable and replace elements within a ingredients string to be formatted
 		String recipe = i.getStringExtra("selectedRecipe");
 		String rIngredients = i.getStringExtra("ingredients").replace("[", "")
 				.replace("\"", "").replace(",", "\n").replace("]", "\n");
