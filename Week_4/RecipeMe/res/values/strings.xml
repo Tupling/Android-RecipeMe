@@ -7,5 +7,10 @@
     <string name="buttonText">Search</string>
     <string name="searchHint">Search recipe contents...</string>
     <string name="noConnection">Your are not connected to a network. Please connect and try again.</string>
+    <string name="search_recipes">Search recipes...</string>
+    <string name="sbText">Search</string>
+    <string name="ingredientsTitle">Ingredients</string>
+    <string name="ingredientsSt">Ingredients:</string>
+    <string name="recipe_image">Recipe Image</string>
 
 </resources>

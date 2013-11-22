@@ -1,0 +1,21 @@
+package com.daletupling.recipeme;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.widget.TextView;
+
+public class ListDetails extends Activity{
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.setContentView(R.layout.recipe_details);
+         
+        TextView recipeName = (TextView) findViewById(R.id.);
+         
+        Intent i = getIntent();
+        // getting attached intent data
+        String product = i.getStringExtra("product");
+        // displaying selected product name
+        txtProduct.setText(product);
+         
+    }

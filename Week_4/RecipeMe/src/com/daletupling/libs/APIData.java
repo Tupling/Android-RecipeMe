@@ -34,6 +34,10 @@ public class APIData {
 
 	static Context context;
 	public static ArrayList<String> recipeList = new ArrayList<String>();
+	public static ArrayList<String> recipeIngre = new ArrayList<String>();
+
+	
+	
 	static String TAG = "NETWORK DATA - WEBDATA";
 	 //Static variable for if check on data
 	 static JSONObject recipeInfo;
@@ -95,13 +99,16 @@ public class APIData {
 					//Loop through recipeArray and get objects "title"
 					for(int i=0; i< recipeArray.length(); i++){
 						recipeInfo = recipeArray.getJSONObject(i);
+
 						Log.i("Recipe Names: ", recipeInfo.getString("recipeName"));
-						Log.i("Recipe Ingredients:", recipeInfo.getString("ingredients"));
+						Log.i("Recipe Ingredients:",recipeInfo.getString("ingredients"));
+
 						//add each recipe to recipeList Array
 						recipeList.add(recipeInfo.getString("recipeName"));
-						
-						
+						recipeIngre.add(recipeInfo.getString("ingredients").toString());
+
 					}//for loop closing bracket
+
 					//check if recipelist is null. If not update listview
 					if(recipeList.size() != 0){
 						MainActivity.listA.notifyDataSetChanged();

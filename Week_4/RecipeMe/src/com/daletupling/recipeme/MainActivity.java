@@ -18,18 +18,21 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+
+
 import android.widget.TextView;
 
 import com.daletupling.libs.APIData;
@@ -39,12 +42,13 @@ import com.daletupling.libs.WebData;
 public class MainActivity extends Activity {
 	public static Context mContext;
 	String[] recipeList;
+	String[] recipeIngre;
 	TextView netConnectionText;
 	EditText search;
 	Button button;
 	Boolean connection = false;
-	ListView listV;
-	LinearLayout linearL;
+	ListView listView;
+
 
 	String tempSearchString;
 	public static String finalSearch;
@@ -58,44 +62,42 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.linear_layout);
 		mContext = this;
 		this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		// Create Linear Layout
-		linearL = new LinearLayout(mContext);
-		// Create Linear Layout parameters
-		LayoutParams layoutP = new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT);
-		// Set layout Params
-		linearL.setLayoutParams(layoutP);
-		// Set Layout Orientation
-		linearL.setOrientation(LinearLayout.VERTICAL);
+
 
 		// EditText Instantiation and Params
-		search = new EditText(mContext);
-		LayoutParams searchParam = new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT);
-		search.setHint(R.string.searchHint);
-		search.setLayoutParams(searchParam);
+		search = (EditText) findViewById(R.id.search);
+
+		listView = (ListView) findViewById(R.id.recipeList);
 		//Create ListView Adapter
-        
 		listA = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, APIData.recipeList);
-        //Create ListView of Recipes
-        listV = new ListView(mContext);
         //Set Listview Adapter
-        listV.setAdapter(listA);
-        //Setup LayoutParams for ListView
-        LayoutParams listLayoutP = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        //Set Layout Params for ListView
-        listV.setLayoutParams(listLayoutP);
+        listView.setAdapter(listA);
+        listView.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+			//get selected product
+				String selectedRecipe = parent.getItemAtPosition(position).toString();
+				String selectedRi = APIData.recipeIngre.get(position).toString();
+				//Launch details activity
+				Intent i = new Intent(getApplicationContext(), ListDetails.class);
+				i.putExtra("selectedRecipe", selectedRecipe);
+				i.putExtra("ingredients", selectedRi);
+				startActivity(i);
+				
+			}
+        	
+        });
+
         
         
 		// Button Instantiation and Params
-		button = new Button(mContext);
-		LayoutParams buttonP = new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.WRAP_CONTENT);
-		button.setLayoutParams(buttonP);
-		button.setText(R.string.buttonText);
+		button = (Button) findViewById(R.id.searchBtn);
 
 		button.setOnClickListener(new View.OnClickListener() {
 
@@ -141,7 +143,7 @@ public class MainActivity extends Activity {
 					Log.i("SEARCH QUERY", finalSearch);
 					InputMethodManager imm = (InputMethodManager)getSystemService(
 						      Context.INPUT_METHOD_SERVICE);
-						imm.hideSoftInputFromWindow(linearL.getWindowToken(), 0);
+						imm.hideSoftInputFromWindow(((View) view).getWindowToken(), 0);
 	
 				}// else closing bracket
 				
@@ -184,16 +186,6 @@ public class MainActivity extends Activity {
 
 		}// network connection if statement closing bracket
 
-		// Add text View
-		linearL.addView(netConnectionText);
-		// Add EditText to View
-		linearL.addView(search);
-		// Add Button to View
-		linearL.addView(button);
-		//Add Listview to View
-		linearL.addView(listV);
-		// Set content view to programmatic Linear Layout
-		setContentView(linearL);
 
 	}// onCreate Closing bracket
 
